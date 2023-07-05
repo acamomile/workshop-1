@@ -28,6 +28,12 @@ export function TaskList() {
     updateFilteredTasks(t, filter)
   }
 
+  function deleteTask(id: number) {
+    const t = tasks.filter((task) => task.id !== id);
+    updateTasks(t)
+    updateFilteredTasks(t, filter)
+  }
+
   function setTasksFilter(type: string) {
     setFilter(type)
     updateFilteredTasks(tasks, type)
@@ -64,6 +70,7 @@ export function TaskList() {
           <TaskView
             key={id}
             toggleTask={toggleTask}
+            deleteTask={deleteTask}
             isDone={isDone}
             id={id}
             title={title}
