@@ -1,19 +1,18 @@
+import {FILTER_TYPE_ALL, FILTER_TYPE_DONE, FILTER_TYPE_UNDONE} from "./filter-types.tsx";
+
 type NewFilterProps =  {
     onChange: (type: string) => void
     filterType: string
 }
 export function Filter({ onChange, filterType }: NewFilterProps) {
-    const filterTypeDone = "done"
-    const filterTypeUndone = "undone"
-
     return (
         <div>
             <label>
                 All
                 <input
                     type="radio"
-                    checked={filterType === ''}
-                    onChange={() => onChange("")}
+                    checked={filterType === FILTER_TYPE_ALL}
+                    onChange={() => onChange(FILTER_TYPE_ALL)}
                 />
             </label>
             <br />
@@ -21,8 +20,8 @@ export function Filter({ onChange, filterType }: NewFilterProps) {
                 Done
                 <input
                     type="radio"
-                    checked={filterType === filterTypeDone}
-                    onChange={() => onChange(filterTypeDone)}
+                    checked={filterType === FILTER_TYPE_DONE}
+                    onChange={() => onChange(FILTER_TYPE_DONE)}
                 />
             </label>
             <br />
@@ -30,8 +29,8 @@ export function Filter({ onChange, filterType }: NewFilterProps) {
                 Not Done
                 <input
                     type="radio"
-                    checked={filterType === filterTypeUndone}
-                    onChange={() => onChange(filterTypeUndone)}
+                    checked={filterType === FILTER_TYPE_UNDONE}
+                    onChange={() => onChange(FILTER_TYPE_UNDONE)}
                 />
             </label>
         </div>

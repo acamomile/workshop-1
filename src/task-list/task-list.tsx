@@ -4,6 +4,7 @@ import { Task as TaskView } from '../task/task'
 import './task-list.css'
 import { NewTaskForm } from '../new-task-form/new-task-form'
 import { Filter } from '../filter/filter'
+import {FILTER_TYPE_ALL, FILTER_TYPE_DONE} from "../filter/filter-types.tsx";
 
 type Task = {
   title: string
@@ -18,27 +19,24 @@ export function TaskList() {
     { id: 3, title: 'Learn JS', isDone: true },
     { id: 4, title: 'Learn React', isDone: false },
   ])
-  const [filter, setFilter] = useState('')
+  const [filter, setFilter] = useState(FILTER_TYPE_ALL)
   const [filteredTasks, setFilteredTasks] = useState(tasks)
 
   function toggleTask(id: number) {
-    updateTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, isDone: !task.isDone } : task,
-      ),
-    )
+    const t = tasks.map((task) => task.id === id ? { ...task, isDone: !task.isDone } : task);
+    updateTasks(t)
+    updateFilteredTasks(t, filter)
   }
 
   function setTasksFilter(type: string) {
     setFilter(type)
-    updateFilteredTasks(type)
+    updateFilteredTasks(tasks, type)
   }
 
-  function updateFilteredTasks(type: string) {
-    let t = tasks
-
-    if (type !== "") {
-      t = tasks.filter((task) => type === "done" ? task.isDone : !task.isDone)
+  function updateFilteredTasks(tasks: Task[], type: string) {
+    var t = tasks
+    if (type !== FILTER_TYPE_ALL) {
+      t = tasks.filter((task) => type === FILTER_TYPE_DONE ? task.isDone : !task.isDone)
     }
 
     setFilteredTasks(t)
@@ -51,7 +49,9 @@ export function TaskList() {
       isDone: false,
     }
 
-    updateTasks([...tasks, task])
+    const updatedTasks = [...tasks, task]
+    updateTasks(updatedTasks)
+    updateFilteredTasks(updatedTasks, filter)
   }
 
   return (
